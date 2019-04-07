@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<style>
+		body{
+			background-color: #66ffff;
+			
+			}
+		div.a{
+			text-align: left;
+			}
+	</style>
+	<style>
+		table.1 {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 10%;
+		}
+
+		td, th {
+			text-align: center;
+			padding: 8px;
+		}
+
+		.solid {
+			border-style: solid;
+			border-width: 6px;
+			border-radius: 100px;
+			border-color: silver;
+			background: -webkit-linear-gradient(#ADD8E6, #C9DCB9); 
+			background: -o-linear-gradient(#ADD8E6, #C9DCB9); 
+			background: -moz-linear-gradient( #ADD8E6, #C9DCB9); 
+			background: linear-gradient(to top left, rgba(141,75,19,0.5), rgba(249,113,0,1));
+		}
+	</style>
+ <font size="+1">
+ <fieldset class="solid">
+ <center><table class="1">
+ <tr>
+
+ <th><label for="myName">Tirmizi Emad</label><br></th>
+ </tr>
+ <tr>
+
+ <th><label for="Class">WED</label><br></th>
+ </tr>
+ </table></center>
+ </fieldset>
+ </div>
+
+ <script type = "text/javascript">
+ $(document).ready( function(){
+ 
+   $("button").click(function(){ 
+   
+     var zip = $("#zip").val();
+	 
+     if(zip != ''){
+         
+		 $.ajax({
+             type: 		"GET",
+             url: 		"weather.php",
+             data: 		"zip="+zip,
+             
+             
+		     beforeSend: function(){ 		
+			                  $("#B").html("waiting....");                },
+         
+			 error: 		function(xhr, status, error) {  
+							  alert( "Error Mesaage:  \r\nNumeric code is: "  + xhr.status + " \r\nError is " + error);   },
+			 
+			 success: 	function(result){
+				  
+				r = JSON.parse(result);
+				
+
+				res =  "<br>City: "			  + r.name+  " "				  		  +		/* name property 			*/
+					   "<br>Temperature: " 	  + r.main.temp + "&deg;F "		  		  +		/* main's temp 				*/
+				       "<br>Weather: " 		  + r.weather[0].main + " "		  		  +		/* weather's main property 	*/
+					   "<br>Description: " 	  + r.weather[0].description + " "		  +
+					   "<br>Humidity: " 	  + r.main.humidity + " "		  		  +
+					   "<br>Sunrise/epoch: "  + r.sys.sunrise + " "			  		  +
+					   "<br>Wind Speed: " 	  + r.wind.speed + " mph"		  		  +
+					   "<br>Date Time: " 	  + r.dt+ " "		  			 		  +
+					   "<br>";
+				
+				$("#B").html(res);
+				
+			}
+		});
+     };
+  });
+});
+     
+</script>
+</head>
+<div class="a">
+<center><body>
+<center><h1> Weather Map</h1>  
+<input 	id = "zip" type = "number" name = "zip" placeholder="Zipcode" autocomplete="off" min="0" required>
+<button id = "btn" type = "BUTTON"><b>REQUEST WEATHER</b></button></center> 
+<div id= "B"></div>
+</body></center></div></font>
+</html>
